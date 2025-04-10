@@ -22,6 +22,10 @@ pos = nx.spring_layout(G, seed=42)
 
 # Unique communities and color map
 unique_communities = sorted(set(partition.values()))
+print("Detected community labels:", unique_communities)
+print("Total number of communities:", len(unique_communities))
+print(f"Nodes: {G.number_of_nodes()}, Edges: {G.number_of_edges()}")
+
 color_map = {com: f"hsl({i * 360 / len(unique_communities)}, 70%, 50%)" for i, com in enumerate(unique_communities)}
 
 # Dash app
