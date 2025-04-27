@@ -3,24 +3,26 @@
 This project explores the structural properties of social networks using data from the Facebook network. The primary goal is to detect influential users by analyzing the network’s topology through centrality measures. While existing metrics such as degree, betweenness, closeness, and eigenvector centrality provide useful insights, they often fall short in capturing influence in complex community-based networks. To address this gap, we propose a novel centrality measure that accounts for both a node’s connectivity and its position within community structures identified using the Louvain algorithm. The new metric emphasizes not just how connected a user is, but how strategically placed they are within or across communities, making it a better indicator of influence in real-world networks. Using NetworkX, we perform community detection, compute various centrality metrics, and visualize the network to compare results. Our findings show that the proposed measure successfully highlights users who may be overlooked by traditional metrics, offering a more nuanced understanding of influence within social graphs.
 ## Empirical Study
 The empirical foundation of this project lies in the detailed examination of a publicly available Facebook social network dataset (https://snap.stanford.edu/data/egonets-Facebook.html), which contains anonymized data reflecting friendships among users. This dataset is structured as an undirected, unweighted graph where each node represents a user, and each edge denotes a mutual friendship.
-Firstly, the Louvain algorithm is applied for community detection.  Louvain algorithm is one of the most prominent modularity-based approaches, efficiently partitioning networks into communities while optimizing modularity scores. It is a heuristic method based on modularity optimization.The algorithm works in 2 steps. On the first step it assigns every node to be in its own community and then for each node it tries to find the maximum positive modularity gain by moving each node to all of its neighbor communities. If no positive gain is achieved the node remains in its original community.The modularity gain obtained by moving an isolated node i into a community C can easily be calculated by the following formula:<br>
+Firstly, the **Louvain algorithm** is applied for community detection.  Louvain algorithm is one of the most prominent modularity-based approaches, efficiently partitioning networks into communities while optimizing modularity scores. It is a heuristic method based on modularity optimization.The algorithm works in 2 steps. On the first step it assigns every node to be in its own community and then for each node it tries to find the maximum positive modularity gain by moving each node to all of its neighbor communities. If no positive gain is achieved the node remains in its original community.The modularity gain obtained by moving an isolated node i into a community C can easily be calculated by the following formula:<br>
 <div align="center">
-![modularity formual](https://github.com/user-attachments/assets/18830bfc-5d21-48f3-9b8b-b89905e6540b) <br>
+<img src="https://github.com/user-attachments/assets/ba06d387-aae5-47fb-8507-e7988cd678f9" > <br>
 </div>
 where m  is the size of the graph, k<sub>i,in</sub> is the sum of the weights of the links from i to nodes in C, k<sub>i</sub> is the sum of the weights of the links incident to node i, ∑tot is the sum of the weights of the links incient to nodes in C and γ is the resolution parameter.
+
 This algorithm is selected due to its exceptional scalability, high computational efficiency, and proven ability to optimize modularity—a crucial measure of the quality of community structures. The modular organization of the Facebook graph is uncovered, revealing the natural clusters within the social fabric of the network.<br>
 <div align="center">
-![community graph](https://github.com/user-attachments/assets/bc362f06-506e-4dc3-bb7b-2f8d34c08f4c) <br>
+<img src="https://github.com/user-attachments/assets/16f76182-b0ef-4358-b151-02cd89ab9d46" width="550"> <br>
 </div>
 Once community structures are identified, a suite of classical centrality measures—namely, degree, closeness, betweenness, and eigenvector centrality—is computed using the NetworkX library in Python. The results are thoroughly analyzed to discern patterns in node centrality and to highlight the limitations of these traditional approaches in fully capturing the spectrum of influential nodes. These insights directly motivate the creation of a new, more nuanced centrality measure.
 This table is sorted by the values of PageRank centrality, in ascending order:
 <div align="center">
-![image](https://github.com/user-attachments/assets/d637f2f4-0442-4f84-8b43-1fef77b70a5b)
+<img src="https://github.com/user-attachments/assets/46d95a9f-fc82-4be8-b874-75f1055e7cc5" width="400">
 </div>
 New centrality measure is then defined, instantiated, and systematically applied to the same network. Its performance is evaluated based on comparative analysis with traditional measures, emphasizing its ability to single out key influencers within individual communities as well as across community borders.
-The below heatmap shows the correlation between different centralities, which in turn represents the similarity or overlaps among them. It also shows how some of these centralities are quite different from each other and hence, there is a need of a new centrality measure that is more comprehensive in determining the influential users in a community structure.
+
+The below **heatmap** shows the correlation between different centralities, which in turn represents the similarity or overlaps among them. It also shows how some of these centralities are quite different from each other and hence, there is a need of a new centrality measure that is more comprehensive in determining the influential users in a community structure.
 <div align="center">
-![image](https://github.com/user-attachments/assets/d4948050-ff4f-4fa8-ad7f-1dea84c224ad)
+<img src="https://github.com/user-attachments/assets/8d8ebd0a-b4e5-45ed-bf18-9832a86042f1" width="400">
 </div> 
 
 ## Brief Description of Solution Approach
@@ -39,31 +41,31 @@ This measure is implemented using Python's NetworkX and community libraries and 
 Existing approaches to identifying influential nodes in networks primarily rely on well-established centrality measures:
 * **Degree Centrality:** ranks nodes based on the number of direct connections. While easy to compute and interpret, it overlooks the broader role a node plays in the network. It is defined as follows:
 <div align="center">
-![image](https://github.com/user-attachments/assets/baa7a8fb-f585-41a9-b4a4-2d4ea5418a63)
+<img src="https://github.com/user-attachments/assets/baa7a8fb-f585-41a9-b4a4-2d4ea5418a63">
 </div>
 where a<sub>ij</sub> is obtained from A<sup>1</sup>, 1-step neighborhood (p=l).
 
 * **Closeness Centrality:** measures how close a node is to all others in terms of path length. It assumes a globally connected network and may not reflect true influence in disconnected or modular structures. It is defined as follows:
 <div align="center">
-![image](https://github.com/user-attachments/assets/98d6eba6-a0f5-403c-b45d-57ca21afc918)
+<image src="https://github.com/user-attachments/assets/98d6eba6-a0f5-403c-b45d-57ca21afc918">
 </div>
 where d(i, j) is the shortest-path distance between node i and j.
 
 * **Betweenness Centrality:** evaluates how often a node appears on the shortest paths between other nodes. Although it highlights nodes acting as bridges, it is computationally expensive and sensitive to network topology changes. It is defined as follows:
 <div align="center">
-  ![image](https://github.com/user-attachments/assets/737568c1-3c33-40f2-ab86-cb032bc54f4b)
+<image src="https://github.com/user-attachments/assets/737568c1-3c33-40f2-ab86-cb032bc54f4b">
 </div>
 where 𝜎(s, t) is the number of shortest paths between nodes s and t and  𝜎<sub>i</sub>(s, t) is the number of shortest paths between nodes s and t that pass through node i.
 
 * **Eigenvector Centrality:** considers both the number and quality of connections, favoring nodes connected to other well-connected nodes. However, it may disproportionately emphasize nodes in large, dense communities. It is defined as follows:
 <div align="center">
-  ![image](https://github.com/user-attachments/assets/be4cc205-e2c9-44b0-9fae-36fb3a46b154)
+<image src="https://github.com/user-attachments/assets/be4cc205-e2c9-44b0-9fae-36fb3a46b154">
 </div>
 where x<sub>i</sub> is the eigenvector centrality of a node i is and λ ≠ 0 is a constant.
 
 * **PageRank Centrality:** builds upon the idea of eigenvector centrality by considering the probability distribution of a random walk across the network. However, PageRank may still underperform in modular networks if a node’s community interactions are not adequately represented in the global structure. It is defined as follows:
 <div align="center">
-![image](https://github.com/user-attachments/assets/6620dd79-fbaa-443a-8e99-8973d2377c3f)
+<image src="https://github.com/user-attachments/assets/6620dd79-fbaa-443a-8e99-8973d2377c3f">
 </div>
 where α<sub>p</sub>(i) and α<sub>p</sub>(j) are the PageRank centralities of node i and node j, respectively, N<sub>1</sub>(i) is the set of direct neighbors of node i, k<sub>j</sub> is the number of links from node j to node i, and d is the damping parameter where d ∈ [0,1], set to 0.85 in the experiments.  
 
@@ -84,7 +86,7 @@ The scope of the project ranges over data handling, algorithmic code, metric dev
 ## Design Diagram
 Activity Diagram
 <div align="center">
-![image](https://github.com/user-attachments/assets/7050eb7b-021f-4fad-83b8-4adf36880c19)
+<image src="https://github.com/user-attachments/assets/dbb9b14c-60bf-4235-9c3a-db2af556c9fb">
 </div>
 
 ## Implementation Details
@@ -92,17 +94,19 @@ The project is implemented in Python, utilizing the NetworkX library for graph c
 Implementation starts with converting the raw data set to an undirected graph. The traditional centrality measures are then calculated with default functions provided in NetworkX. For the suggested centrality score, user-defined functions are defined to obtain intra-community influence and inter-community connectivity. The individual components are combined linearly or through an adaptive function that is tunable. The ultimate influence score is calculated for every node.
 To improve the interpretability of the detected communities and network structure, a web-based frontend using Dash and Plotly was implemented. The frontend enables users to visualize the entire Facebook graph and filter and examine individual community subgraphs. The nodes are color-coded according to community membership, and a node's details, including node ID and community label, are displayed when a node is hovered over. A dropdown menu supports dynamic filtering of communities, which makes the exploration very intuitive and visually informative. Layout is computed based on the spring layout algorithm, while interactivity is obtained from responsive callbacks. This frontend not only facilitates further analysis but also enhances the usability of the proposed system by providing direct, visual comprehension of community structures.
 
+**Frontend:**
+
 Communities using Louvain Algorithm:
 <div align="center">
-![image](https://github.com/user-attachments/assets/aadd1688-bf92-42d5-8746-f7c349baf638)
+<image src="https://github.com/user-attachments/assets/05fdef26-05fc-4112-a45b-b4a3d135387c">
 </div>
  Separate graph of Community-2:
 <div align="center">
-![image](https://github.com/user-attachments/assets/b2e4599d-4c9d-4e6d-8067-07962af66216)
+<image src="https://github.com/user-attachments/assets/7e52cc7d-999c-416c-83e8-ab9230eb52cd">
 </div>
 Separate graph of Community-13:
 <div align="center">
-![image](https://github.com/user-attachments/assets/acc9567a-de2d-490d-8203-4935f1ce61e6)
+<image src="https://github.com/user-attachments/assets/3bf5e1a6-4cdf-4f07-a938-b37aee466a97">
 </div>
 
 ## Test Environment
@@ -119,16 +123,18 @@ Hardware Items:
 * No dedicated GPU used
 
 ## Findings and Conclusion
-In order to compare the performance of the suggested centrality measure, Influential_Score, we calculated and compared it to other centralities with respect to top nodes in the Facebook network dataset. Table 1 displays a sample of nodes and their respective values for each centrality measure, which is an indication of the contribution of the new metric toward the identification of influential nodes.
+In order to compare the performance of the suggested centrality measure, Influential_Score, we calculated and compared it to other centralities with respect to top nodes in the Facebook network dataset. This table displays a sample of nodes and their respective values for each centrality measure, which is an indication of the contribution of the new metric toward the identification of influential nodes.
+
 <div align="center">
-![image](https://github.com/user-attachments/assets/2f4a2985-db99-473e-948b-677ac2f9f275)
+<image src="https://github.com/user-attachments/assets/48ae68cd-484f-4bd6-9f92-d5e9f489290b" width="500">
 </div>
 <div align="center">
 Table containing traditional centrality measures and with PCA1, PCA2, Influential_Score of all nodes
 </div>
+  
 To explore the connection between the novel Influential_Score and historical centrality indices, a heatmap of correlations was generated. The following heatmap display shows the degree to which the new measure complies with or contradicts the past measures when it comes to expressing node relevance.
 <div align="center">
-![image](https://github.com/user-attachments/assets/31e3fdc6-407e-4a9b-9bde-6cb47721e8e9)
+<image src="https://github.com/user-attachments/assets/9163fb60-7b85-443f-bff4-c17f13369e5e" width="400">
 </div>
 <div align="center">
 Heatmap containing Influential_Score with Traditional Centrality measures
@@ -157,15 +163,18 @@ Is it based on non-topological factors (e.g., semantic content, user engagement)
 If prediction of influence is the goal, one could consider hybridizing centrality with outside characteristics (e.g., regression modeling).
 
 To further investigate pairwise correlations between various centrality metrics, including the introduced Influential_Score, the following scatter plots were created. The following scatter plots illustrate pairwise comparisons between traditional centrality metrics and the introduced Influential_Score, providing information about their linearity, clustering, and distribution patterns.
-Here are Scatter plots of Eigenvector, PageRank and influential_score with all Traditional Centralities and Influential_Score:
 
+Here are Scatter plots of Eigenvector, PageRank and influential_score with all Traditional Centralities and Influential_Score:
+<br>
 <div align="center">
-![image](https://github.com/user-attachments/assets/e9f6da33-4688-41df-bc44-1ad6ae8671b0)
+<image src="https://github.com/user-attachments/assets/e9f6da33-4688-41df-bc44-1ad6ae8671b0">
 </div>
 <br>
-Here are the Insights of all Centrality Measures: 
+Here are the insights of all Centrality Measures: 
+
 
 <div align="center">
+  
 | Centrality Measure | Captures...                               | Correlates Well With                      | Distinct From |
 |--------------------|-------------------------------------------|-------------------------------------------|---------------|
 | **Degree**         | Local connectedness                      | Closeness, Eigenvector, PageRank          | Betweenness   |
