@@ -167,7 +167,7 @@ To further investigate pairwise correlations between various centrality metrics,
 Here are Scatter plots of Eigenvector, PageRank and influential_score with all Traditional Centralities and Influential_Score:
 <br>
 <div align="center">
-<image src="https://github.com/user-attachments/assets/e9f6da33-4688-41df-bc44-1ad6ae8671b0">
+<image src="https://github.com/user-attachments/assets/e9f6da33-4688-41df-bc44-1ad6ae8671b0" width="650">
 </div>
 <br>
 Here are the insights of all Centrality Measures: 
